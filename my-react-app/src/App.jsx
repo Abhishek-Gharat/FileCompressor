@@ -1,14 +1,7 @@
-import { useState } from 'react'
-import './App.css'
-
+import "./App.css"
+import Compress from "./Component/Compress"
 function App() {
-  
-
-  return (
-    <>
-
-    </>
-  )
+    return <Compress />
 }
 
 export default App
