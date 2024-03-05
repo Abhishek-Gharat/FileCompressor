@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import 'tailwindcss/tailwind.css';
 import mainImage from '../assets/main.png';
 import vectorImage from '../assets/vector.png';
@@ -8,6 +9,7 @@ import iceImage from '../assets/ice.png';
 
 const MainPage = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const navigate = useNavigate();
 
   const handleFileChange = (event) => {
     const files = event.target.files;
@@ -19,8 +21,9 @@ const MainPage = () => {
     // For demonstration, let's just log the selected files to the console
     console.log('Selected Files:', selectedFiles);
     // You can send the selectedFiles to your backend for further processing
-    // Reset selected files after upload
-    setSelectedFiles([]);
+
+    // Redirect to the DragAndDrop page and pass selectedFiles as state
+    navigate('/DragAndDrop', { state: { selectedFiles } });
   };
 
   return (
@@ -43,11 +46,12 @@ const MainPage = () => {
               onChange={handleFileChange}
               className="hidden" // Hide the default file input
             />
-          
+            <button onClick={handleUpload} className="upload-button">
+              Upload
+            </button>
           </div>
         </div>
       </div>
-
       <div className="min-h-screen flex items-start justify-center">
         <div className="flex flex-col bg-white p-4 shadow-lg rounded-lg mt-4 w-full md:w-3/4 lg:w-1/2 xl:w-4/6">
           <h2 className="text-2xl text-black font-bold mb-4">Why compress images?</h2>
