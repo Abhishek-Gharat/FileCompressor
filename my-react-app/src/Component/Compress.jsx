@@ -1,28 +1,17 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "./Compress.css"
-import { useNavigate } from "react-router-dom"
-
-import mainImage from "../assets/main.png"
-import vectorImage from "../assets/vector.png"
-import spaceImage from "../assets/space.png"
-import multipleImage from "../assets/multiple.png"
-import iceImage from "../assets/ice.png"
+import { useLocation } from "react-router-dom"
 
 function Compress() {
+    const location = useLocation()
     const [compressionLevel, setCompressionLevel] = useState(85)
     const [outputFormat, setOutputFormat] = useState("jpg")
-    const [images, setImages] = useState([
-        { src: mainImage, id: 1 },
-        { src: vectorImage, id: 2 },
-        { src: spaceImage, id: 3 },
-        { src: multipleImage, id: 4 },
-        { src: iceImage, id: 5 },
-    ]) // Array of imported images
+    const [images, setImages] = useState([]) // Array of imported images
 
     useEffect(() => {
         // Check if there are selectedFiles in the location state
-        if (location.state && location.state.selectedFiles) {
-            handleImages(location.state.selectedFiles)
+        if (location.state && location.state.images) {
+            handleImages(location.state.images)
         }
     }, [location.state])
 
@@ -38,6 +27,24 @@ function Compress() {
 
     const handleFormatChange = (format) => {
         setOutputFormat(format)
+    }
+
+    const handleImages = (files) => {
+        const allowedTypes = [
+            "image/png",
+            "image/jpeg",
+            "image/gif",
+            "image/svg+xml",
+            "image/webp",
+            "image/heic",
+        ]
+        const selectedImages = []
+        for (let i = 0; i < files.length; i++) {
+            if (allowedTypes.includes(files[i].type)) {
+                selectedImages.push(files[i])
+            }
+        }
+        setImages(selectedImages)
     }
 
     const handleRemoveImage = (id) => {
@@ -110,8 +117,8 @@ function Compress() {
                                         </button>
                                         <img
                                             alt={`Image ${index + 1}`}
-                                            src={image.src} // Add the src attribute here
-                                            className="object-cover w-32 h-32 md:w-48 md:h-48 lg:w-64 lg:h-64 rounded-lg border border-gray-300 shadow-md mr-4 mb-4"
+                                            src={URL.createObjectURL(image)}
+                                            className="grid-image"
                                         />
                                     </div>
                                 ))}
