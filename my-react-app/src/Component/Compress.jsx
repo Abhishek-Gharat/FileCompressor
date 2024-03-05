@@ -1,9 +1,30 @@
 import { useState } from "react"
 import "./Compress.css"
+import { useNavigate } from "react-router-dom"
+
+import mainImage from "../assets/main.png"
+import vectorImage from "../assets/vector.png"
+import spaceImage from "../assets/space.png"
+import multipleImage from "../assets/multiple.png"
+import iceImage from "../assets/ice.png"
 
 function Compress() {
     const [compressionLevel, setCompressionLevel] = useState(85)
     const [outputFormat, setOutputFormat] = useState("jpg")
+    const [images, setImages] = useState([
+        { src: mainImage, id: 1 },
+        { src: vectorImage, id: 2 },
+        { src: spaceImage, id: 3 },
+        { src: multipleImage, id: 4 },
+        { src: iceImage, id: 5 },
+    ]) // Array of imported images
+
+    useEffect(() => {
+        // Check if there are selectedFiles in the location state
+        if (location.state && location.state.selectedFiles) {
+            handleImages(location.state.selectedFiles)
+        }
+    }, [location.state])
 
     const handleCompressionChange = (event) => {
         const value = event.target.value
@@ -17,6 +38,10 @@ function Compress() {
 
     const handleFormatChange = (format) => {
         setOutputFormat(format)
+    }
+
+    const handleRemoveImage = (id) => {
+        setImages(images.filter((image) => image.id !== id))
     }
 
     const handleSubmit = () => {
@@ -68,6 +93,28 @@ function Compress() {
                                         borderRadius: "5px",
                                     }}
                                 />
+                            </div>
+                            <div className="image-grid">
+                                {images.map((image, index) => (
+                                    <div
+                                        key={index}
+                                        className="relative inline-block"
+                                    >
+                                        <button
+                                            className="absolute top- right-4 z-10 p-0.5 bg-red-500 text-white rounded-full"
+                                            onClick={() =>
+                                                handleRemoveImage(image.id)
+                                            }
+                                        >
+                                            X
+                                        </button>
+                                        <img
+                                            alt={`Image ${index + 1}`}
+                                            src={image.src} // Add the src attribute here
+                                            className="object-cover w-32 h-32 md:w-48 md:h-48 lg:w-64 lg:h-64 rounded-lg border border-gray-300 shadow-md mr-4 mb-4"
+                                        />
+                                    </div>
+                                ))}
                             </div>
                             <div className="mt-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2">
