@@ -42,15 +42,7 @@ const Content = () => {
     <div className="content-container">
       <h2>Drag and drop your image here</h2>
       <p>Or use the button below to select an image from your computer</p>
-      <label htmlFor="file-upload" className="file-upload-button">
-        Select Image
-      </label>
-      <input
-        id="file-upload"
-        type="file"
-        accept="image/*"
-        onChange={handleImageSelect}
-      />
+     
 
       <p>Supported image formats: PNG, JPEG, GIF, SVG, WEBP, HEIC</p>
       <div className="image-grid">
