@@ -9,6 +9,7 @@ import iceImage from '../assets/ice.png';
 const MainPage = () => {
     return (
         <>
+        <h1>hello</h1>
             <div className="min-h-screen flex items-center  justify-center">
             <div className="text-white text-center bg-cover bg-center bg-no-repeat w-full md:w-1/2 lg:w-1/3 xl:w-4/6" style={{ backgroundImage: `url(${mainImage})`, width: '928px', height: '480px' }}>
                     <div className='mt-40 p-0 md:p-5  rounded-lg white'>
